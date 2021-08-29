@@ -84,8 +84,8 @@ notifier.on('notified', async data => {
       "Content-Type": 'application/json',
     },
     data: {
-      "youtube_channel_id": data.video.id,
-      "youtube_id": data.channel.id,
+      "youtube_id": data.video.id,
+      "youtube_channel_id": data.channel.id,
       "youtube_title": youtube_title,
     }
   })
