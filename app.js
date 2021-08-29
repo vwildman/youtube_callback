@@ -51,12 +51,14 @@ notifier.on('notified', data => {
   console.log(data);
 });
 
+console.log('Listening on port ' + process.env.PORT);
+
 notifier.server.get('/', function (req, res) {
-  res.send('The webiste is alive.')
+  res.status(200).send('The webiste is alive.')
 })
 
 notifier.server.get('/test_discord', async function (req, res) {
-  res.send('Sending message to discord if permitted.')
+  res.status(200).send('Sending message to discord if permitted.')
   var discord_webhook
   if (process.env.MESSAGE_DISCORD === 'true') {
     discord_webhook = await axios({
