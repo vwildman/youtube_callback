@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
+    "tesjs": "^0.5.1",
     "youtube-notification": "^1.1.0"
   }
 }

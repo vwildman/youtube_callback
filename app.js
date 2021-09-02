@@ -1,7 +1,8 @@
 const dotenv = require('dotenv').config();
 const YouTubeNotifier = require('youtube-notification');
-const TESServer = require('tesjs');
+const TES = require('tesjs');
 const axios = require('axios');
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const notifier = new YouTubeNotifier({
   hubCallback: process.env.CALLBACK_URL,
@@ -9,10 +10,11 @@ const notifier = new YouTubeNotifier({
   path: '/youtube-hub',
 });
 notifier.setup();
+const base_topic = 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=';
 
 console.log('Listening on port ' + process.env.PORT);
 
-const tes = new TEServer({
+const tes = new TES({
   identity: {
       id: process.env.TWITCH_CLIENT_ID,
       secret: process.env.TWITCH_CLIENT_SECRET 
@@ -27,8 +29,8 @@ const tes = new TEServer({
 console.log('Listening to Twitch Events')
 
 notifier.on('subscribe', async data => {
-//  console.log('Subscribed');
-//  console.log(data);
+  console.log('Subscribed');
+  console.log(data);
 // Add message to my discord that the subscriptions have been sucessful
   var discord_webhook
   if (process.env.MESSAGE_DISCORD === 'true') {
@@ -95,7 +97,7 @@ notifier.on('notified', async data => {
   let youtube_title = data.video.title.trim().replace(/[-[/\]"\\]/g, '\\\$&')
   discord_webhook = await axios({
     method: "POST",
-    url: process.env.PIPEDREAM_WEBHOOK,
+    url: process.env.PIPEDREAM_YOUTUBE_WEBHOOK,
     headers: {
       "Content-Type": 'application/json',
     },
@@ -132,28 +134,36 @@ notifier.server.get('/test_discord', async function (req, res) {
 })
 
 // Twitch Subsciptions
-var twitch_subs_array = process.env.TWITCH_SUBS.split(",");
+/*var twitch_subs_array = process.env.TWITCH_SUBS.split(",");
 for (twitch_sub of twitch_subs_array) {
   tes.subscribe('stream.online', {
     broadcaster_user_id: twitch_sub
-  }).then(_ => {
-    console.log('Subscription successful for stream id: ' + twitch_sub);
-  }).catch(err => {
-    console.log('Subscription failed for stream id: ' + twitch_sub);
-    console.log(err);
   });
-}
+  delay(2000);
+} */
+
+// List all Twitch subsciptions
+/*tes.getSubscriptionsByType('stream.online').then(data => {
+  console.log(JSON.stringify(data,0,2));
+}); */
 
 // Receive Twitch Notification
-tes.on('stream.online', event => {
+tes.on('stream.online', async event => {
   console.log(`Event User Name: ${event.broadcaster_user_name}`);
   console.log(`Event User ID: ${event.broadcaster_user_id}`);
   console.log(`Event User Login: ${event.broadcaster_user_login}`);
-});
+  var twitch_webhook;
+  twitch_webhook = await axios({
+    method: "POST",
+    url: process.env.PIPEDREAM_TWITCH_WEBHOOK,
+    headers: {
+      "Content-Type": 'application/json',
+    },
+    data: {
+      "twitch_user_id": `${event.broadcaster_user_id}`,
+      "twitch_user_login": `${event.broadcaster_user_login}`,
+      "twitch_user_name": `${event.broadcaster_user_name}`,
+    },
+  })
+})
 
-// Youtube Subsciptions
-var youtube_subs_array = process.env.YOUTUBE_SUBS.split(",");
-notifier.subscribe(youtube_subs_array);
-
-// Test repetition
-setInterval(() => console.log('Task executed'), 5000)
