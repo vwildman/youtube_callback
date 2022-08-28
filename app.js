@@ -134,16 +134,16 @@ notifier.server.get('/test_discord', async function (req, res) {
 })
 
 // Twitch Subsciptions
-var twitch_subs_array = process.env.TWITCH_SUBS.split(",");
+/* var twitch_subs_array = process.env.TWITCH_SUBS.split(",");
 for (twitch_sub of twitch_subs_array) {
   tes.subscribe('stream.online', {
     broadcaster_user_id: twitch_sub
   });
   delay(2000);
-} 
+} */
 
 // List all Twitch subsciptions
-/*tes.getSubscriptionsByType('stream.online').then(data => {
+/* tes.getSubscriptionsByType('stream.online').then(data => {
   console.log(JSON.stringify(data,0,2));
 }); */
 
