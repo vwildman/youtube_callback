@@ -143,9 +143,9 @@ for (twitch_sub of twitch_subs_array) {
 }
 
 // List all Twitch subsciptions
-/* tes.getSubscriptionsByType('stream.online').then(data => {
+tes.getSubscriptionsByType('stream.online').then(data => {
   console.log(JSON.stringify(data,0,2));
-}); */
+});
 
 // Receive Twitch Notification
 tes.on('stream.online', async event => {
