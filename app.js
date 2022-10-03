@@ -139,7 +139,7 @@ for (twitch_sub of twitch_subs_array) {
   tes.subscribe('stream.online', {
     broadcaster_user_id: twitch_sub
   });
-  delay(2000);
+  delay(5000);
 }
 
 // List all Twitch subsciptions
