@@ -105,6 +105,7 @@ notifier.on('notified', async data => {
       "youtube_id": data.video.id,
       "youtube_channel_id": data.channel.id,
       "youtube_title": youtube_title,
+      "yt_link_test": data.video.link,
     }
   })
 });
