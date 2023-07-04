@@ -137,7 +137,7 @@ notifier.server.get('/test_discord', async function (req, res) {
 // Twitch Subsciptions
 var twitch_subs_array = process.env.TWITCH_SUBS.split(",");
 for (twitch_sub of twitch_subs_array) {
-  tes.subscribe('stream.online', {
+  tes.unsubscribe('stream.online', {
     broadcaster_user_id: twitch_sub
   });
   delay(5000);
