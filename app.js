@@ -14,6 +14,7 @@ const base_topic = 'https://www.youtube.com/xml/feeds/videos.xml?channel_id=';
 
 console.log('Listening on port ' + process.env.PORT);
 
+
 const tes = new TES({
   identity: {
       id: process.env.TWITCH_CLIENT_ID,
