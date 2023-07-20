@@ -12,7 +12,18 @@
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.11",
     "tesjs": "^0.5.1",
     "youtube-notification": "^1.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vwildman/youtube_callback.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/vwildman/youtube_callback/issues"
+  },
+  "homepage": "https://github.com/vwildman/youtube_callback#readme",
+  "devDependencies": {}
 }
